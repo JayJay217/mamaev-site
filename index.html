@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎄 ЗаконОчка для Мамаевых 🎅</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #000; --card: #0b0b0b; --card-hover: #141414; --border: #222;
+    --border-hover: rgba(255,45,135,0.5);
+    --white: #fff; --gray: #9a9a9a;
+    --pink: #ff2d87; --pink-soft: #ff5fa2; --pink-light: #ff8fc0;
+    --pink-glow: rgba(255,45,135,0.55);
+    --uk-color: #ff4d4d; --koap-color: #00d4ff;
+    /* Новогодние цвета */
+    --ny-gold: #ffcc33; --ny-gold-soft: #ffd966; --ny-gold-glow: rgba(255,204,51,0.6);
+    --ny-red: #e63946; --ny-green: #2a9d5c; --ny-snow: #eaf4ff;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--white); min-height: 100vh;
+    line-height: 1.6; overflow-x: hidden;
+  }
+
+  /* ===== ФОН ===== */
+  body::before {
+    content: ''; position: fixed; inset: -40px;
+    background-image: url('bg.jpg');
+    background-size: cover; background-position: center; background-repeat: no-repeat;
+    filter: blur(12px) brightness(0.35);
+    z-index: -2; pointer-events: none;
+  }
+  body::after {
+    content: ''; position: fixed; inset: 0;
+    background:
+      radial-gradient(circle at 12% 10%, rgba(255,45,135,0.15), transparent 45%),
+      radial-gradient(circle at 88% 18%, rgba(255,95,162,0.10), transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(255,45,135,0.10), transparent 55%),
+      radial-gradient(circle at 50% 0%, rgba(255,204,51,0.08), transparent 50%),
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 64px 64px, 64px 64px;
+    mask-image: radial-gradient(ellipse at 50% 0%, black 20%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black 20%, transparent 85%);
+    pointer-events: none; z-index: -1;
+  }
+
+  /* ===== СНЕГ ===== */
+  .snow-container {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .snow {
+    position: absolute; top: -10px; color: var(--ny-snow);
+    opacity: 0.85; font-size: 14px; user-select: none;
+    animation: snowfall linear infinite;
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.6));
+  }
+  @keyframes snowfall {
+    0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.9; }
+    90% { opacity: 0.9; }
+    100% { transform: translateY(110vh) translateX(60px) rotate(360deg); opacity: 0; }
+  }
+
+  /* ===== ГИРЛЯНДА ===== */
+  .garland {
+    position: fixed; top: 0; left: 0; right: 0; height: 38px; z-index: 5;
+    pointer-events: none; display: flex; justify-content: space-around; align-items: flex-start;
+    padding: 0 12px;
+  }
+  .garland::before {
+    content: ''; position: absolute; top: 6px; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, #1e1e1e 5%, #333 50%, #1e1e1e 95%, transparent);
+    border-radius: 2px;
+  }
+  .bulb {
+    position: relative; width: 10px; height: 14px; margin-top: 4px;
+    border-radius: 50% 50% 45% 45%;
+    background: var(--ny-gold);
+    box-shadow: 0 0 8px var(--ny-gold), 0 0 16px var(--ny-gold-glow);
+    animation: bulbFlash 2s ease-in-out infinite;
+  }
+  .bulb::before {
+    content: ''; position: absolute; top: -3px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px; background: #555; border-radius: 1px;
+  }
+  .bulb:nth-child(3n) { background: var(--ny-red); box-shadow: 0 0 8px var(--ny-red), 0 0 16px rgba(230,57,70,0.6); animation-delay: 0.4s; }
+  .bulb:nth-child(3n+1) { background: var(--pink); box-shadow: 0 0 8px var(--pink), 0 0 16px var(--pink-glow); animation-delay: 0.8s; }
+  .bulb:nth-child(3n+2) { background: var(--ny-green); box-shadow: 0 0 8px var(--ny-green), 0 0 16px rgba(42,157,92,0.6); animation-delay: 1.2s; }
+  @keyframes bulbFlash {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    50% { opacity: 0.55; filter: brightness(0.7); }
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 0 24px 80px; }
+  header { padding: 70px 0 40px; text-align: center; position: relative; }
+
+  /* ===== НОВОГОДНИЙ БЕЙДЖ ===== */
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;
+    border: 1px solid rgba(255,204,51,0.55); border-radius: 999px;
+    background: rgba(255,204,51,0.06); font-size: 12px; font-weight: 700;
+    color: var(--ny-gold-soft); letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 22px;
+    box-shadow: 0 0 20px rgba(255,204,51,0.25), inset 0 0 12px rgba(255,204,51,0.1);
+    animation: fadeUp 0.7s ease both;
+  }
+  .badge .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ny-gold); box-shadow: 0 0 10px var(--ny-gold), 0 0 20px var(--ny-gold);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.8);} }
+
+  /* ===== ЗАГОЛОВОК ===== */
+  h1 {
+    font-size: clamp(34px, 6vw, 62px); font-weight: 900; line-height: 1.05;
+    letter-spacing: -1.5px; margin-bottom: 16px; animation: fadeUp 0.7s 0.1s ease both;
+  }
+  h1 .neon {
+    color: var(--white);
+    text-shadow:
+      0 0 2px rgba(255,255,255,0.3),
+      0 0 8px rgba(255,45,135,0.35),
+      0 0 16px rgba(255,45,135,0.2),
+      0 0 24px rgba(255,204,51,0.3);
+  }
+  .h1-deco {
+    display: inline-block; margin: 0 4px;
+    filter: drop-shadow(0 0 10px var(--ny-gold));
+    animation: sway 3s ease-in-out infinite;
+  }
+  @keyframes sway {
+    0%,100% { transform: rotate(-6deg) scale(1); }
+    50% { transform: rotate(6deg) scale(1.1); }
+  }
+  .subtitle {
+    color: var(--gray); font-size: 16px; max-width: 620px; margin: 0 auto;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .subtitle .gold { color: var(--ny-gold-soft); font-weight: 700; text-shadow: 0 0 8px var(--ny-gold-glow); }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+  /* ===== ВКЛАДКИ ===== */
+  .tabs {
+    display: flex; gap: 6px; padding: 6px; background: #070707;
+    border: 1px solid var(--border); border-radius: 16px;
+    margin: 40px auto 34px; max-width: 900px; position: relative;
+    animation: fadeUp 0.7s 0.3s ease both; flex-wrap: wrap;
+    box-shadow: inset 0 0 30px rgba(255,45,135,0.05), inset 0 0 40px rgba(255,204,51,0.04);
+  }
+  .tab {
+    flex: 1; min-width: 130px; padding: 14px 16px; border: 1px solid transparent;
+    background: transparent; color: var(--gray); font-family: inherit;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.3px;
+    border-radius: 11px; cursor: pointer; transition: all 0.25s ease;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .tab:hover { color: var(--ny-gold-soft); border-color: rgba(255,204,51,0.3); background: rgba(255,204,51,0.06); }
+  .tab.active {
+    color: #000;
+    background: linear-gradient(135deg, var(--pink), var(--ny-gold));
+    border-color: var(--ny-gold);
+    box-shadow: 0 0 20px var(--pink-glow), 0 0 40px rgba(255,204,51,0.35), inset 0 0 8px rgba(255,255,255,0.25);
+  }
+  .tab .tab-icon { font-size: 16px; }
+
+  .content { position: relative; }
+  .panel { display: none; animation: fadeIn 0.4s ease both; }
+  .panel.active { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+
+  .panel-header {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--border); position: relative;
+  }
+  .panel-header::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; width: 80px; height: 1px;
+    background: linear-gradient(90deg, var(--pink), var(--ny-gold));
+    box-shadow: 0 0 8px var(--pink), 0 0 16px var(--ny-gold-glow);
+  }
+  .panel-header .icon-box {
+    width: 48px; height: 48px; display: grid; place-items: center;
+    font-size: 24px; border-radius: 12px;
+    background: linear-gradient(135deg, rgba(255,45,135,0.1), rgba(255,204,51,0.08));
+    border: 1px solid rgba(255,204,51,0.4); flex-shrink: 0;
+    box-shadow: 0 0 16px rgba(255,45,135,0.2), 0 0 20px rgba(255,204,51,0.15), inset 0 0 10px rgba(255,45,135,0.1);
+  }
+  .panel-header h2 { font-size: 24px; font-weight: 800; letter-spacing: -0.3px; color: var(--white); text-shadow: 0 0 12px rgba(255,255,255,0.25); }
+  .panel-header p { color: var(--gray); font-size: 14px; }
+
+  /* ===== СУБТАБЫ ===== */
+  .subtabs {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px;
+    padding-bottom: 16px; border-bottom: 1px dashed rgba(255,204,51,0.25);
+  }
+  .subtab {
+    padding: 10px 18px; border: 1px solid rgba(255,45,135,0.3);
+    background: rgba(255,45,135,0.03); color: var(--pink-soft);
+    font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.3px;
+    border-radius: 10px; cursor: pointer; transition: all 0.25s ease;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .subtab:hover {
+    color: var(--white); border-color: var(--ny-gold); background: rgba(255,204,51,0.08);
+    box-shadow: 0 0 14px rgba(255,204,51,0.25);
+  }
+  .subtab.active {
+    color: var(--white);
+    background: linear-gradient(135deg, rgba(255,45,135,0.18), rgba(255,204,51,0.12));
+    border-color: var(--ny-gold);
+    box-shadow: 0 0 16px rgba(255,45,135,0.3), 0 0 20px rgba(255,204,51,0.2), inset 0 0 12px rgba(255,45,135,0.1);
+    text-shadow: 0 0 8px var(--pink-glow);
+  }
+  .subtab .subtab-icon { font-size: 15px; }
+  .subpanel { display: none; animation: fadeIn 0.3s ease both; }
+  .subpanel.active { display: block; }
+  .subpanel-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(255,45,135,0.05), rgba(255,204,51,0.03));
+    border: 1px solid rgba(255,204,51,0.25); border-radius: 12px;
+  }
+  .subpanel-header .sp-icon { font-size: 22px; filter: drop-shadow(0 0 8px var(--pink-glow)); flex-shrink: 0; }
+  .subpanel-header .sp-title { font-size: 16px; font-weight: 800; color: var(--white); letter-spacing: -0.2px; margin-bottom: 2px; }
+  .subpanel-header .sp-desc { font-size: 13px; color: var(--gray); }
+
+  /* ===== ПОИСК ===== */
+  .search-container { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .search-wrap { position: relative; flex: 1; min-width: 280px; }
+  .search-icon {
+    position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+    font-size: 18px; pointer-events: none; filter: drop-shadow(0 0 6px var(--pink)); opacity: 0.7;
+  }
+  .search-input {
+    width: 100%; padding: 18px 60px 18px 54px; background: #0b0b0b;
+    border: 1px solid var(--border); border-radius: 14px; color: var(--white);
+    font-family: inherit; font-size: 16px; font-weight: 600; outline: none;
+    transition: all 0.25s ease;
+  }
+  .search-input::placeholder { color: #555; font-weight: 500; }
+  .search-input:focus {
+    border-color: var(--ny-gold);
+    box-shadow: 0 0 20px rgba(255,204,51,0.3), 0 0 40px rgba(255,45,135,0.15), inset 0 0 20px rgba(255,204,51,0.05);
+    background: #0e0e0e;
+  }
+  .search-clear {
+    position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+    width: 32px; height: 32px; display: none; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,204,51,0.4); border-radius: 8px;
+    background: rgba(255,204,51,0.1); color: var(--ny-gold-soft);
+    font-size: 16px; font-weight: 900; cursor: pointer; transition: all 0.2s ease;
+  }
+  .search-clear:hover { background: var(--ny-gold); color: #000; }
+  .search-clear.show { display: flex; }
+
+  .filters-container { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .back-btn {
+    padding: 8px 16px; border: 1px solid rgba(255,45,135,0.4); background: rgba(255,45,135,0.1);
+    color: var(--pink-soft); font-family: inherit; font-size: 13px; font-weight: 700;
+    border-radius: 999px; cursor: pointer; transition: all 0.2s ease;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .back-btn:hover { background: var(--pink); color: #000; border-color: var(--pink); }
+
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 8px 14px; border: 1px solid var(--border); background: #0b0b0b;
+    color: var(--gray); font-family: inherit; font-size: 12px; font-weight: 700;
+    border-radius: 999px; cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: rgba(255,204,51,0.5); color: var(--ny-gold-soft); background: rgba(255,204,51,0.06); }
+  .filter-btn.active {
+    background: linear-gradient(135deg, var(--pink), var(--ny-gold));
+    color: #000; border-color: var(--ny-gold);
+    box-shadow: 0 0 16px var(--pink-glow), 0 0 24px rgba(255,204,51,0.3);
+  }
+
+  .result-count { color: var(--gray); font-size: 13px; margin-bottom: 16px; padding-left: 4px; }
+  .result-count b { color: var(--pink-soft); font-weight: 900; text-shadow: 0 0 8px var(--pink-glow); }
+
+  /* ===== ЭЛЕМЕНТЫ ===== */
+  .list { display: flex; flex-direction: column; gap: 12px; }
+  .item {
+    display: flex; gap: 16px; padding: 18px 22px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 14px; transition: all 0.3s ease;
+    text-decoration: none; color: inherit; position: relative; overflow: hidden;
+  }
+  .item::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, var(--pink), var(--ny-gold));
+    box-shadow: 0 0 8px var(--pink), 0 0 16px var(--ny-gold-glow);
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .item:hover {
+    background: var(--card-hover); border-color: rgba(255,204,51,0.5); transform: translateX(4px);
+    box-shadow: 0 0 20px rgba(255,45,135,0.15), 0 0 24px rgba(255,204,51,0.12), 0 8px 30px -10px rgba(255,45,135,0.2);
+  }
+  .item:hover::before { opacity: 1; }
+  .item-icon {
+    width: 42px; height: 42px; display: grid; place-items: center; font-size: 20px;
+    border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    flex-shrink: 0; transition: all 0.3s ease; position: relative; z-index: 1;
+  }
+  .item:hover .item-icon {
+    border-color: rgba(255,204,51,0.6);
+    background: linear-gradient(135deg, rgba(255,45,135,0.12), rgba(255,204,51,0.1));
+    box-shadow: 0 0 14px rgba(255,204,51,0.3);
+  }
+  .item-body { flex: 1; position: relative; z-index: 1; min-width: 0; display: flex; flex-direction: column; }
+  .item-body .meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .item-body .code {
+    display: inline-block; padding: 2px 8px; font-size: 11px; font-weight: 800;
+    letter-spacing: 0.5px; text-transform: uppercase; background: rgba(255,45,135,0.1);
+    border: 1px solid rgba(255,45,135,0.35); border-radius: 5px; color: var(--pink-soft);
+  }
+  .item-body .code.type-const { background: rgba(255,95,162,0.12); border-color: rgba(255,95,162,0.5); }
+  .item-body .code.type-pgo { background: rgba(255,45,135,0.15); border-color: rgba(255,45,135,0.6); color: #ffb3d1; }
+  .item-body .code.type-uk { background: rgba(255,77,77,0.12); border-color: rgba(255,77,77,0.5); color: #ff9999; }
+  .item-body .code.type-koap { background: rgba(0,212,255,0.12); border-color: rgba(0,212,255,0.5); color: #66e6ff; }
+
+  .item-body .art-num { font-size: 13px; font-weight: 800; color: var(--pink-soft); text-shadow: 0 0 8px var(--pink-glow); }
+  .item-body h3 { font-size: 15px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.2px; color: var(--white); line-height: 1.4; }
+
+  .item-text { display: none; margin-top: 10px; color: var(--gray); font-size: 14px; line-height: 1.6; }
+  .item-text mark { background: rgba(255,204,51,0.35); color: var(--white); padding: 1px 3px; border-radius: 3px; font-weight: 700; }
+  .item.expanded .item-text { display: block; }
+
+  .punish-badge {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
+    padding: 5px 11px; background: rgba(255,204,51,0.08);
+    border: 1px solid rgba(255,204,51,0.4); border-radius: 8px;
+    font-size: 11px; font-weight: 800; color: var(--ny-gold-soft);
+    letter-spacing: 0.3px; box-shadow: 0 0 10px rgba(255,204,51,0.18);
+    align-self: flex-start;
+  }
+  .punish-badge::before { content: '⚠'; font-size: 12px; filter: drop-shadow(0 0 4px var(--ny-gold)); }
+
+  .toggle-text-btn {
+    margin-top: 14px; align-self: flex-start; display: none;
+    padding: 6px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; color: var(--white); font-size: 12px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .toggle-text-btn:hover { background: rgba(255,204,51,0.15); border-color: var(--ny-gold); color: var(--ny-gold-soft); }
+  .item.expanded .toggle-text-btn { display: inline-block; }
+
+  .item .chev {
+    font-size: 12px; color: var(--pink-soft); opacity: 0.5;
+    transition: transform 0.3s ease;
+    align-self: flex-start; flex-shrink: 0; margin-left: auto; padding-left: 8px;
+  }
+  .item.expanded .chev { transform: rotate(180deg); opacity: 1; }
+
+  .chapter-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px; animation: fadeIn 0.4s ease;
+  }
+  .chapter-card {
+    display: flex; flex-direction: column; gap: 4px;
+    padding: 18px 20px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 14px;
+    color: inherit; font-family: inherit; text-align: left;
+    cursor: pointer; transition: all 0.25s ease;
+    position: relative; overflow: hidden;
+  }
+  .chapter-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, var(--pink), var(--ny-gold));
+    box-shadow: 0 0 8px var(--pink), 0 0 12px var(--ny-gold-glow);
+    opacity: 0; transition: opacity 0.25s ease;
+  }
+  .chapter-card:hover {
+    background: var(--card-hover); border-color: rgba(255,204,51,0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255,45,135,0.15), 0 0 22px rgba(255,204,51,0.12), 0 8px 24px -12px rgba(255,45,135,0.2);
+  }
+  .chapter-card:hover::before { opacity: 1; }
+  .chapter-num {
+    font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--pink-soft);
+    text-shadow: 0 0 8px var(--pink-glow);
+  }
+  .chapter-title { font-size: 14px; font-weight: 700; color: var(--white); line-height: 1.4; margin-top: 2px; }
+  .chapter-count { font-size: 12px; color: var(--gray); margin-top: 6px; }
+
+  .empty { text-align: center; padding: 60px 20px; color: var(--gray); }
+  .empty .emoji { font-size: 48px; margin-bottom: 16px; opacity: 0.5; filter: drop-shadow(0 0 12px var(--pink-glow)); }
+  .empty h3 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 6px; }
+  .empty p { font-size: 14px; }
+
+  .add-form {
+    display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px;
+    padding: 20px; background: #0b0b0b; border: 1px solid var(--border);
+    border-radius: 14px; box-shadow: inset 0 0 20px rgba(255,45,135,0.03), inset 0 0 30px rgba(255,204,51,0.03);
+  }
+  .add-form-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .form-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .form-input, .form-textarea {
+    flex: 1; min-width: 200px; padding: 12px 16px; background: #070707;
+    border: 1px solid var(--border); border-radius: 10px; color: var(--white);
+    font-family: inherit; font-size: 14px; font-weight: 600; outline: none; transition: all 0.25s ease;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: #555; font-weight: 500; }
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--ny-gold); box-shadow: 0 0 16px rgba(255,204,51,0.25), inset 0 0 10px rgba(255,204,51,0.05);
+  }
+  .form-textarea { resize: vertical; min-height: 70px; }
+  .form-btn {
+    align-self: flex-start; padding: 12px 24px; border: 1px solid var(--ny-gold);
+    background: linear-gradient(135deg, var(--pink), var(--ny-gold));
+    color: #000; font-family: inherit; font-size: 13px; font-weight: 800;
+    letter-spacing: 0.5px; border-radius: 10px; cursor: pointer; transition: all 0.25s ease;
+    text-transform: uppercase; box-shadow: 0 0 16px rgba(255,204,51,0.4);
+  }
+  .form-btn:hover { box-shadow: 0 0 24px var(--pink-glow), 0 0 40px rgba(255,204,51,0.35); transform: translateY(-1px); }
+  .form-btn:active { transform: translateY(0); }
+  .reset-votes-btn {
+    padding: 12px 20px; background: rgba(255,204,51,0.06);
+    border: 1px solid rgba(255,204,51,0.4); color: var(--ny-gold-soft);
+    font-family: inherit; font-size: 12px; font-weight: 700; letter-spacing: 0.3px;
+    border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+  }
+  .reset-votes-btn:hover {
+    background: rgba(255,204,51,0.15); border-color: var(--ny-gold); color: var(--white);
+    box-shadow: 0 0 14px rgba(255,204,51,0.3);
+  }
+  .photo-upload-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .photo-btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px;
+    border: 1px dashed rgba(255,204,51,0.55); background: rgba(255,204,51,0.04);
+    color: var(--ny-gold-soft); font-size: 13px; font-weight: 700;
+    border-radius: 10px; cursor: pointer; transition: all 0.25s ease; user-select: none;
+  }
+  .photo-btn:hover {
+    border-color: var(--ny-gold); background: rgba(255,204,51,0.1);
+    box-shadow: 0 0 16px rgba(255,204,51,0.3); color: var(--white);
+  }
+  .photo-btn input { display: none; }
+  .photo-preview { display: flex; align-items: center; gap: 10px; }
+  .photo-preview:empty { display: none; }
+  .photo-preview-thumb {
+    position: relative; width: 60px; height: 60px; border-radius: 10px; overflow: hidden;
+    border: 1px solid rgba(255,204,51,0.5); box-shadow: 0 0 14px rgba(255,204,51,0.3);
+  }
+  .photo-preview-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-preview-remove {
+    position: absolute; top: 2px; right: 2px; width: 20px; height: 20px;
+    display: grid; place-items: center; border: none; background: rgba(0,0,0,0.8);
+    color: var(--ny-gold); font-size: 12px; font-weight: 900; border-radius: 50%;
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .photo-preview-remove:hover { background: var(--ny-gold); color: #000; }
+  .memory-item {
+    display: flex; gap: 16px; padding: 20px 22px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 14px; position: relative;
+    transition: all 0.3s ease; flex-wrap: wrap;
+  }
+  .memory-item:hover {
+    background: var(--card-hover); border-color: rgba(255,204,51,0.5);
+    box-shadow: 0 0 20px rgba(255,45,135,0.15), 0 0 22px rgba(255,204,51,0.1);
+  }
+  .memory-icon {
+    width: 42px; height: 42px; display: grid; place-items: center; font-size: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255,45,135,0.12), rgba(255,204,51,0.1));
+    border: 1px solid rgba(255,204,51,0.45); flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(255,204,51,0.25);
+  }
+  .memory-body { flex: 1; min-width: 200px; }
+  .memory-body h3 { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 6px; letter-spacing: -0.2px; }
+  .memory-body p { color: var(--gray); font-size: 14px; line-height: 1.55; white-space: pre-wrap; word-wrap: break-word; }
+  .memory-date {
+    display: inline-block; margin-top: 10px; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.5px; color: var(--ny-gold-soft); text-transform: uppercase; opacity: 0.85;
+  }
+  .memory-photo {
+    flex-basis: 100%; border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border); background: #000; cursor: zoom-in;
+    position: relative; max-height: 320px; transition: all 0.3s ease;
+  }
+  .memory-photo:hover { border-color: rgba(255,204,51,0.5); box-shadow: 0 0 20px rgba(255,204,51,0.25); }
+  .memory-photo img { width: 100%; max-height: 320px; object-fit: cover; display: block; transition: transform 0.4s ease; }
+  .memory-photo:hover img { transform: scale(1.02); }
+  .delete-btn {
+    width: 30px; height: 30px; display: grid; place-items: center;
+    border: 1px solid transparent; background: transparent; color: var(--gray);
+    font-size: 16px; font-weight: 900; border-radius: 7px; cursor: pointer;
+    flex-shrink: 0; transition: all 0.2s ease; align-self: flex-start;
+  }
+  .delete-btn:hover {
+    color: var(--pink); border-color: rgba(255,45,135,0.5); background: rgba(255,45,135,0.1);
+    box-shadow: 0 0 10px rgba(255,45,135,0.3);
+  }
+
+  /* ===== ФИЛЬМЫ ===== */
+  .films-layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+  .films-main { min-width: 0; }
+  .films-side {
+    position: sticky; top: 24px; padding: 22px; background: var(--card);
+    border: 1px solid rgba(255,204,51,0.4); border-radius: 16px;
+    box-shadow: 0 0 24px rgba(255,45,135,0.12), 0 0 26px rgba(255,204,51,0.12), inset 0 0 20px rgba(255,45,135,0.05);
+  }
+  .side-title {
+    font-size: 13px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--ny-gold-soft); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    text-shadow: 0 0 10px var(--ny-gold-glow);
+  }
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+  .stat-box {
+    padding: 14px 12px; background: #070707; border: 1px solid var(--border);
+    border-radius: 12px; text-align: center; transition: all 0.25s ease;
+  }
+  .stat-box:hover { border-color: rgba(255,204,51,0.5); box-shadow: 0 0 12px rgba(255,204,51,0.25); }
+  .stat-box .stat-num { font-size: 28px; font-weight: 900; line-height: 1; margin-bottom: 4px; letter-spacing: -1px; }
+  .stat-box .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); }
+  .stat-box.watched-box .stat-num { color: var(--pink-soft); text-shadow: 0 0 12px var(--pink-glow), 0 0 24px rgba(255,45,135,0.3); }
+  .stat-box.pending-box .stat-num { color: var(--ny-gold-soft); text-shadow: 0 0 8px var(--ny-gold-glow); }
+  .progress-wrap { margin-bottom: 18px; padding: 14px; background: #070707; border: 1px solid var(--border); border-radius: 12px; }
+  .progress-label {
+    display: flex; justify-content: space-between; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 8px;
+  }
+  .progress-label .progress-percent { color: var(--ny-gold-soft); text-shadow: 0 0 8px var(--ny-gold-glow); }
+  .progress-bar { width: 100%; height: 8px; background: #151515; border-radius: 999px; overflow: hidden; box-shadow: inset 0 0 6px rgba(0,0,0,0.6); }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--pink), var(--ny-gold));
+    border-radius: 999px; box-shadow: 0 0 12px var(--pink-glow), 0 0 20px rgba(255,204,51,0.4);
+    transition: width 0.5s ease; width: 0%;
+  }
+  .side-list-title {
+    font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 10px; margin-top: 6px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .side-list-title .side-list-count { color: var(--ny-gold-soft); font-weight: 900; }
+  .side-list {
+    display: flex; flex-direction: column; gap: 6px; max-height: 400px;
+    overflow-y: auto; padding-right: 6px; margin-bottom: 14px;
+  }
+  .side-list::-webkit-scrollbar { width: 6px; }
+  .side-list::-webkit-scrollbar-track { background: transparent; }
+  .side-list::-webkit-scrollbar-thumb { background: rgba(255,204,51,0.35); border-radius: 3px; }
+  .side-item {
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+    background: #070707; border: 1px solid var(--border); border-radius: 8px;
+    font-size: 12px; transition: all 0.2s ease;
+  }
+  .side-item:hover { border-color: rgba(255,204,51,0.4); background: #0e0e0e; }
+  .side-item .side-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    background: var(--gray); box-shadow: 0 0 6px rgba(154,154,154,0.4);
+  }
+  .side-item.done .side-dot { background: var(--ny-gold); box-shadow: 0 0 8px var(--ny-gold), 0 0 14px var(--ny-gold-glow); }
+  .side-item .side-name {
+    flex: 1; font-weight: 600; color: var(--white);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .side-item.done .side-name { color: var(--gray); text-decoration: line-through; text-decoration-color: var(--pink); }
+  .side-votes {
+    display: flex; align-items: center; gap: 3px; padding: 1px 7px;
+    background: rgba(255,204,51,0.12); border: 1px solid rgba(255,204,51,0.4);
+    border-radius: 999px; font-size: 10px; font-weight: 900; color: var(--ny-gold-soft);
+    flex-shrink: 0; min-width: 22px; justify-content: center;
+  }
+  .side-empty {
+    padding: 16px 12px; text-align: center; font-size: 12px; color: var(--gray);
+    background: #070707; border: 1px dashed var(--border); border-radius: 10px; margin-bottom: 14px;
+  }
+  .film-item {
+    display: flex; align-items: center; gap: 14px; padding: 18px 22px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    transition: all 0.3s ease; position: relative;
+  }
+  .film-item:hover {
+    background: var(--card-hover); border-color: rgba(255,204,51,0.5);
+    box-shadow: 0 0 20px rgba(255,45,135,0.15), 0 0 22px rgba(255,204,51,0.1);
+  }
+  .film-item.watched { opacity: 0.65; }
+  .film-item.watched .film-body h3 {
+    text-decoration: line-through; text-decoration-color: var(--pink); text-decoration-thickness: 2px;
+  }
+  .film-item.leader {
+    border-color: rgba(255,204,51,0.75);
+    box-shadow: 0 0 24px rgba(255,204,51,0.3), inset 0 0 20px rgba(255,204,51,0.06);
+    background: linear-gradient(135deg, rgba(255,204,51,0.1), var(--card) 60%);
+  }
+  .leader-badge {
+    position: absolute; top: -9px; right: 14px;
+    padding: 3px 11px; background: linear-gradient(135deg, var(--pink), var(--ny-gold));
+    color: #000; font-size: 11px; font-weight: 900; letter-spacing: 0.3px;
+    border-radius: 999px; box-shadow: 0 0 14px var(--pink-glow), 0 0 24px rgba(255,204,51,0.5);
+    z-index: 2; display: flex; align-items: center; gap: 4px;
+    animation: crownPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes crownPulse { 0%,100%{box-shadow:0 0 14px var(--pink-glow),0 0 24px rgba(255,204,51,0.5);} 50%{box-shadow:0 0 20px var(--pink-glow),0 0 36px rgba(255,204,51,0.7);} }
+  .film-check { position: relative; flex-shrink: 0; cursor: pointer; }
+  .film-check input { display: none; }
+  .film-check .checkmark {
+    display: grid; place-items: center; width: 28px; height: 28px;
+    border: 2px solid rgba(255,204,51,0.6); border-radius: 8px;
+    background: #070707; transition: all 0.2s ease; box-shadow: 0 0 8px rgba(255,204,51,0.25);
+  }
+  .film-check:hover .checkmark { border-color: var(--ny-gold); box-shadow: 0 0 14px rgba(255,204,51,0.45); }
+  .film-check input:checked + .checkmark {
+    background: linear-gradient(135deg, var(--pink), var(--ny-gold)); border-color: var(--ny-gold);
+    box-shadow: 0 0 16px var(--pink-glow), 0 0 30px rgba(255,204,51,0.4);
+  }
+  .film-check input:checked + .checkmark::after {
+    content: '✓'; color: #000; font-weight: 900; font-size: 18px; line-height: 1;
+  }
+  .film-body { flex: 1; min-width: 0; }
+  .film-body h3 {
+    font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 2px;
+    letter-spacing: -0.2px; transition: all 0.3s ease;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .film-body p { color: var(--gray); font-size: 13px; }
+  .vote-btn {
+    display: flex; align-items: center; gap: 6px; padding: 8px 13px;
+    background: rgba(255,204,51,0.06); border: 1px solid rgba(255,204,51,0.4);
+    border-radius: 10px; color: var(--ny-gold-soft); font-family: inherit;
+    font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.25s ease;
+    flex-shrink: 0;
+  }
+  .vote-btn:hover {
+    background: rgba(255,204,51,0.15); border-color: var(--ny-gold);
+    transform: translateY(-1px); box-shadow: 0 0 12px rgba(255,204,51,0.35);
+  }
+  .vote-btn.voted {
+    background: linear-gradient(135deg, var(--pink), var(--ny-gold));
+    border-color: var(--ny-gold); color: #000;
+    box-shadow: 0 0 16px var(--pink-glow), 0 0 28px rgba(255,204,51,0.45);
+  }
+  .vote-btn:disabled {
+    opacity: 0.35; cursor: not-allowed; transform: none !important;
+    box-shadow: none !important; background: rgba(255,204,51,0.03); border-color: var(--border);
+  }
+  .vote-btn .vote-heart { font-size: 15px; line-height: 1; }
+  .vote-btn .vote-count { min-width: 14px; text-align: center; }
+  .vote-leader-info {
+    display: none; align-items: center; gap: 10px;
+    padding: 14px 18px; margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(255,45,135,0.12), rgba(255,204,51,0.08));
+    border: 1px solid rgba(255,204,51,0.55); border-radius: 12px;
+    font-size: 14px; color: var(--white); font-weight: 700;
+    box-shadow: 0 0 20px rgba(255,204,51,0.2);
+  }
+  .vote-leader-info.show { display: flex; }
+  .vote-leader-info .crown { font-size: 22px; filter: drop-shadow(0 0 8px var(--ny-gold)); animation: pulse 2s infinite; }
+  .vote-leader-info .name { color: var(--ny-gold-soft); font-weight: 900; text-shadow: 0 0 8px var(--ny-gold-glow); }
+  .vote-leader-info .votes-num { color: var(--ny-gold-soft); font-weight: 900; margin-left: 2px; }
+
+  .warn {
+    display: flex; gap: 14px; padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(255,45,135,0.06), rgba(255,204,51,0.04));
+    border: 1px solid rgba(255,204,51,0.45);
+    border-radius: 12px; margin-bottom: 20px; font-size: 14px; color: var(--pink-light);
+    box-shadow: 0 0 20px rgba(255,45,135,0.12), 0 0 18px rgba(255,204,51,0.1), inset 0 0 16px rgba(255,45,135,0.05);
+  }
+  .warn .w-icon { font-size: 20px; flex-shrink: 0; filter: drop-shadow(0 0 6px var(--ny-gold)); }
+  .smart-link {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 18px 22px; margin-bottom: 24px;
+    background: linear-gradient(135deg, rgba(255,45,135,0.12), rgba(255,204,51,0.08));
+    border: 1px solid rgba(255,204,51,0.6); border-radius: 14px;
+    text-decoration: none; color: var(--white); position: relative; overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 24px rgba(255,45,135,0.2), 0 0 26px rgba(255,204,51,0.15), inset 0 0 20px rgba(255,45,135,0.08);
+  }
+  .smart-link::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,204,51,0.2), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  .smart-link:hover {
+    transform: translateY(-2px); border-color: var(--ny-gold);
+    box-shadow: 0 0 32px var(--pink-glow), 0 0 40px rgba(255,204,51,0.4), 0 8px 30px -8px rgba(255,45,135,0.4);
+  }
+  .smart-link-left { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
+  .smart-link .brain { font-size: 26px; filter: drop-shadow(0 0 8px var(--ny-gold)); animation: pulse 2.5s ease-in-out infinite; }
+  .smart-link-text { display: flex; flex-direction: column; }
+  .smart-link-title { font-size: 16px; font-weight: 900; color: var(--white); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+  .smart-link-sub { font-size: 13px; color: var(--gray); margin-top: 2px; }
+  .smart-link-arrow {
+    font-size: 22px; color: var(--ny-gold-soft); font-weight: 900;
+    position: relative; z-index: 1; transition: transform 0.25s ease;
+    text-shadow: 0 0 10px var(--ny-gold-glow);
+  }
+  .smart-link:hover .smart-link-arrow { transform: translateX(6px); }
+
+  .lightbox {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    z-index: 1000; display: flex; align-items: center; justify-content: center;
+    padding: 24px; cursor: zoom-out; animation: fadeIn 0.25s ease;
+  }
+  .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 14px; box-shadow: 0 0 60px rgba(255,45,135,0.4), 0 0 60px rgba(255,204,51,0.3); }
+  .lightbox-close {
+    position: absolute; top: 20px; right: 20px; width: 44px; height: 44px;
+    display: grid; place-items: center; background: rgba(255,204,51,0.15);
+    border: 1px solid var(--ny-gold); color: var(--ny-gold); font-size: 20px; font-weight: 900;
+    border-radius: 50%; cursor: pointer; transition: all 0.2s ease;
+  }
+  .lightbox-close:hover { background: var(--ny-gold); color: #000; box-shadow: 0 0 20px var(--ny-gold-glow); }
+
+  /* ===== МЕДИА ===== */
+  .media-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .media-card {
+    display: flex; flex-direction: column; background: var(--card);
+    border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+    text-decoration: none; color: inherit; transition: all 0.3s ease;
+    position: relative;
+  }
+  .media-card:hover {
+    transform: translateY(-4px); border-color: var(--ny-gold);
+    box-shadow: 0 0 30px rgba(255,45,135,0.2), 0 0 30px rgba(255,204,51,0.2), 0 10px 30px -10px rgba(255,45,135,0.3);
+  }
+  .media-preview {
+    position: relative; width: 100%; height: 180px; overflow: hidden; background: #000;
+  }
+  .media-preview img {
+    width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;
+  }
+  .media-card:hover .media-preview img { transform: scale(1.05); }
+  .media-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 50%);
+    display: flex; align-items: flex-start; padding: 12px;
+  }
+  .media-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #9146FF; color: #fff; font-size: 12px; font-weight: 800;
+    padding: 4px 10px; border-radius: 6px; text-transform: uppercase;
+    letter-spacing: 0.5px; box-shadow: 0 0 10px rgba(145,70,255,0.5);
+  }
+  .media-info {
+    padding: 20px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .media-info h3 {
+    font-size: 18px; font-weight: 800; color: var(--white);
+  }
+  .media-info p {
+    color: var(--gray); font-size: 14px; margin-bottom: 10px;
+  }
+  .media-link-text {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--ny-gold-soft); font-size: 14px; font-weight: 800;
+    text-shadow: 0 0 10px var(--ny-gold-glow); transition: transform 0.2s ease;
+  }
+  .media-card:hover .media-link-text {
+    transform: translateX(4px); color: var(--ny-gold);
+  }
+
+  footer {
+    margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--border);
+    text-align: center; color: var(--gray); font-size: 13px; position: relative;
+  }
+  footer::before {
+    content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+    width: 160px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--pink), var(--ny-gold), transparent);
+    box-shadow: 0 0 10px var(--pink), 0 0 20px var(--ny-gold-glow);
+  }
+  .signature {
+    display: flex; align-items: center; justify-content: center; gap: 18px;
+    margin: 22px auto 14px; max-width: 660px; padding: 14px 22px;
+    border-radius: 12px; background: #070707; border: 1px solid rgba(255,204,51,0.4);
+    position: relative; overflow: hidden;
+    box-shadow: 0 0 20px rgba(255,45,135,0.12), 0 0 22px rgba(255,204,51,0.12), inset 0 0 16px rgba(255,45,135,0.05);
+  }
+  .signature::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,204,51,0.15), transparent);
+    animation: shimmer 4s ease-in-out infinite;
+  }
+  @keyframes shimmer { 0%,100%{transform:translateX(-100%);} 50%{transform:translateX(100%);} }
+  .sign-line {
+    flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--ny-gold), transparent);
+    opacity: 0.7; box-shadow: 0 0 6px var(--ny-gold);
+  }
+  .sign-text {
+    position: relative; font-size: 12px; font-weight: 700; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--white); white-space: nowrap;
+  }
+  .sign-text .family {
+    font-weight: 900; color: var(--pink-soft); letter-spacing: 1.5px;
+    text-shadow: 0 0 8px var(--pink), 0 0 16px var(--pink-glow), 0 0 24px var(--ny-gold-glow);
+  }
+  .sign-text .by {
+    font-weight: 900; color: var(--ny-gold-soft); letter-spacing: 1.5px; margin-left: 4px;
+    text-shadow: 0 0 6px var(--ny-gold), 0 0 14px var(--ny-gold-glow), 0 0 22px rgba(255,204,51,0.4);
+  }
+  .small { font-size: 11px; opacity: 0.5; margin-top: 6px; }
+  .ny-greeting {
+    margin: 16px auto 0; max-width: 520px; padding: 10px 18px;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.5px;
+    color: var(--ny-gold-soft); text-align: center;
+    text-shadow: 0 0 10px var(--ny-gold-glow);
+  }
+
+  @media (max-width: 900px) { .films-layout { grid-template-columns: 1fr; } .films-side { position: static; } }
+  @media (max-width: 640px) {
+    header { padding: 50px 0 20px; }
+    .tabs { margin: 28px auto 24px; }
+    .tab { min-width: 100%; font-size: 13px; padding: 12px; }
+    .subtab { padding: 9px 14px; font-size: 12px; }
+    .item { flex-direction: column; gap: 12px; }
+    .item .chev { display: none; }
+    .chapter-grid { grid-template-columns: 1fr; }
+    .sign-text { font-size: 10px; white-space: normal; text-align: center; }
+    .sign-line { display: none; }
+    .smart-link { padding: 16px 18px; }
+    .smart-link-title { font-size: 15px; }
+    .smart-link-sub { font-size: 12px; }
+    .search-input { padding: 16px 50px 16px 48px; font-size: 15px; }
+    .film-item, .memory-item { padding: 16px; flex-wrap: wrap; }
+    .film-item .vote-btn { padding: 7px 11px; font-size: 12px; }
+    .memory-photo, .memory-photo img { max-height: 220px; }
+    .side-list { max-height: 260px; }
+    .filter-btn { font-size: 11px; padding: 7px 12px; }
+    .vote-leader-info { font-size: 13px; padding: 12px 14px; }
+    .search-container { flex-direction: column; }
+    .garland { height: 26px; }
+    .bulb { width: 7px; height: 10px; }
+  }
+
+  /* Уважаем настройки пользователя */
+  @media (prefers-reduced-motion: reduce) {
+    .snow, .bulb, .h1-deco, .smart-link::before, .signature::before { animation: none !important; }
+    .snow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Новогодний снег -->
+<div class="snow-container" id="snowContainer" aria-hidden="true"></div>
+
+<!-- Гирлянда -->
+<div class="garland" aria-hidden="true">
+  <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+  <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+  <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+  <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+  <div class="bulb"></div><div class="bulb"></div><div class="bulb"></div><div class="bulb"></div>
+</div>
+
+<div class="wrap">
+
+  <header>
+    <div class="badge"><span class="dot"></span>🎄 Новогодний свод для семьи 🎄</div>
+    <h1>
+      <span class="h1-deco">🎅</span>
+      <span class="neon">ЗаконОчка</span>
+      <span class="h1-deco">🎄</span>
+      <br>для Мамаевых
+    </h1>
+    <p class="subtitle">
+      Законодательная база, кодексы, ПГО и общие воспоминания — в одном месте.
+      <br><span class="gold">✨ С наступающим Новым годом! ✨</span>
+    </p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="zakonka"><span class="tab-icon">🔎</span> Законка</button>
+    <button class="tab" data-tab="rules"><span class="tab-icon">📋</span> Правила</button>
+    <button class="tab" data-tab="memories"><span class="tab-icon">💭</span> Воспоминания</button>
+    <button class="tab" data-tab="films"><span class="tab-icon">🎬</span> Фильмы</button>
+    <button class="tab" data-tab="media"><span class="tab-icon">📺</span> Медиа семьи</button>
+  </div>
+
+  <div class="content">
+
+    <div class="panel active" id="panel-zakonka">
+      <div class="panel-header">
+        <div class="icon-box">🔎</div>
+        <div><h2>Законка</h2><p>Единый поиск по всем нормативным актам · или выбери раздел</p></div>
+      </div>
+
+      <!-- ЕДИНЫЙ ПОИСК -->
+      <div class="search-container">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="globalSearchInput" class="search-input" placeholder="Поиск по всем разделам: 15, адвокат, Премьер-министр..." autocomplete="off">
+          <button class="search-clear" id="globalSearchClear" type="button" title="Очистить">✕</button>
+        </div>
+      </div>
+
+      <!-- РЕЖИМ ПРОСМОТРА -->
+      <div id="browseMode">
+        <div class="subtabs" id="subtabs">
+          <button class="subtab active" data-subtab="legislation"><span class="subtab-icon">📜</span> Конституция</button>
+          <button class="subtab" data-subtab="uk"><span class="subtab-icon">⚖️</span> УК РО</button>
+          <button class="subtab" data-subtab="koap"><span class="subtab-icon">📝</span> КоАП РО</button>
+          <button class="subtab" data-subtab="pgo"><span class="subtab-icon">👮</span> ПГО</button>
+        </div>
+
+        <!-- КОНСТИТУЦИЯ -->
+        <div class="subpanel active" id="subpanel-legislation">
+          <div class="subpanel-header">
+            <span class="sp-icon">📜</span>
+            <div>
+              <div class="sp-title">Конституция РО</div>
+              <div class="sp-desc">93 статьи · 10 глав</div>
+            </div>
+          </div>
+          <div class="filters-container">
+            <div class="filters" id="filters">
+              <button class="filter-btn active" data-filter="all">Все главы</button>
+              <button class="filter-btn" data-filter="I">Глава I</button>
+              <button class="filter-btn" data-filter="II">Глава II</button>
+              <button class="filter-btn" data-filter="III">Глава III</button>
+              <button class="filter-btn" data-filter="IV">Глава IV</button>
+              <button class="filter-btn" data-filter="V">Глава V</button>
+              <button class="filter-btn" data-filter="VI">Глава VI</button>
+              <button class="filter-btn" data-filter="VII">Глава VII</button>
+              <button class="filter-btn" data-filter="VIII">Глава VIII</button>
+              <button class="filter-btn" data-filter="IX">Глава IX</button>
+              <button class="filter-btn" data-filter="X">Глава X</button>
+            </div>
+          </div>
+          <div class="result-count" id="resultCount"></div>
+          <div class="list" id="results"></div>
+        </div>
+
+        <!-- УК РО -->
+        <div class="subpanel" id="subpanel-uk">
+          <div class="subpanel-header">
+            <span class="sp-icon">⚖️</span>
+            <div>
+              <div class="sp-title">Уголовный кодекс РО</div>
+              <div class="sp-desc">Общая и Особенная части</div>
+            </div>
+          </div>
+          <div class="filters-container">
+            <div class="filters" id="ukFilters">
+              <button class="filter-btn active" data-uk-filter="all">Все главы</button>
+              <button class="filter-btn" data-uk-filter="1">Глава 1</button>
+              <button class="filter-btn" data-uk-filter="2">Глава 2</button>
+              <button class="filter-btn" data-uk-filter="3">Глава 3</button>
+              <button class="filter-btn" data-uk-filter="4">Глава 4</button>
+              <button class="filter-btn" data-uk-filter="5">Глава 5</button>
+              <button class="filter-btn" data-uk-filter="6">Глава 6</button>
+              <button class="filter-btn" data-uk-filter="7">Глава 7</button>
+              <button class="filter-btn" data-uk-filter="8">Глава 8</button>
+              <button class="filter-btn" data-uk-filter="9">Глава 9</button>
+              <button class="filter-btn" data-uk-filter="10">Глава 10</button>
+              <button class="filter-btn" data-uk-filter="11">Глава 11</button>
+              <button class="filter-btn" data-uk-filter="12">Глава 12</button>
+              <button class="filter-btn" data-uk-filter="13">Глава 13</button>
+              <button class="filter-btn" data-uk-filter="14">Глава 14</button>
+              <button class="filter-btn" data-uk-filter="15">Глава 15</button>
+              <button class="filter-btn" data-uk-filter="16">Глава 16</button>
+              <button class="filter-btn" data-uk-filter="17">Глава 17</button>
+            </div>
+          </div>
+          <div class="result-count" id="ukResultCount"></div>
+          <div class="list" id="ukResults"></div>
+        </div>
+
+        <!-- КОАП РО -->
+        <div class="subpanel" id="subpanel-koap">
+          <div class="subpanel-header">
+            <span class="sp-icon">📝</span>
+            <div>
+              <div class="sp-title">Административный кодекс РО</div>
+              <div class="sp-desc">Общая и Особенная части</div>
+            </div>
+          </div>
+          <div class="filters-container">
+            <div class="filters" id="koapFilters">
+              <button class="filter-btn active" data-koap-filter="all">Все главы</button>
+              <button class="filter-btn" data-koap-filter="1">Глава 1</button>
+              <button class="filter-btn" data-koap-filter="2">Глава 2</button>
+              <button class="filter-btn" data-koap-filter="3">Глава 3</button>
+              <button class="filter-btn" data-koap-filter="4">Глава 4</button>
+              <button class="filter-btn" data-koap-filter="5">Глава 5</button>
+              <button class="filter-btn" data-koap-filter="6">Глава 6</button>
+              <button class="filter-btn" data-koap-filter="7">Глава 7</button>
+              <button class="filter-btn" data-koap-filter="8">Глава 8</button>
+              <button class="filter-btn" data-koap-filter="9">Глава 9</button>
+              <button class="filter-btn" data-koap-filter="10">Глава 10</button>
+              <button class="filter-btn" data-koap-filter="11">Глава 11</button>
+              <button class="filter-btn" data-koap-filter="12">Глава 12</button>
+              <button class="filter-btn" data-koap-filter="13">Глава 13</button>
+              <button class="filter-btn" data-koap-filter="14">Глава 14</button>
+            </div>
+          </div>
+          <div class="result-count" id="koapResultCount"></div>
+          <div class="list" id="koapResults"></div>
+        </div>
+
+        <!-- ПГО -->
+        <div class="subpanel" id="subpanel-pgo">
+          <div class="subpanel-header">
+            <span class="sp-icon">👮</span>
+            <div>
+              <div class="sp-title">ПГО · Правила государственных организаций</div>
+              <div class="sp-desc">14 разделов</div>
+            </div>
+          </div>
+          <div class="filters-container">
+            <div class="filters" id="pgoFilters">
+              <button class="filter-btn active" data-pgo-filter="all">Все разделы</button>
+              <button class="filter-btn" data-pgo-filter="1">1 · Общее</button>
+              <button class="filter-btn" data-pgo-filter="2">2 · Взаимод.</button>
+              <button class="filter-btn" data-pgo-filter="3">3 · Правит.</button>
+              <button class="filter-btn" data-pgo-filter="4">4 · ФСБ</button>
+              <button class="filter-btn" data-pgo-filter="5">5 · МВД</button>
+              <button class="filter-btn" data-pgo-filter="6">6 · Армия</button>
+              <button class="filter-btn" data-pgo-filter="7">7 · Силовые</button>
+              <button class="filter-btn" data-pgo-filter="8">8 · Суд</button>
+              <button class="filter-btn" data-pgo-filter="9">9 · СК</button>
+              <button class="filter-btn" data-pgo-filter="10">10 · ГИБДД</button>
+              <button class="filter-btn" data-pgo-filter="11">11 · Вести</button>
+              <button class="filter-btn" data-pgo-filter="12">12 · ФСО</button>
+              <button class="filter-btn" data-pgo-filter="13">13 · Допрос</button>
+              <button class="filter-btn" data-pgo-filter="14">14 · Обыск</button>
+            </div>
+          </div>
+          <div class="result-count" id="pgoResultCount"></div>
+          <div class="list" id="pgoResults"></div>
+        </div>
+      </div>
+
+      <!-- РЕЖИМ ПОИСКА -->
+      <div id="searchMode" style="display:none;">
+        <div class="filters-container" style="margin-bottom: 20px;">
+          <div class="filters" id="globalTypeFilters">
+            <button class="filter-btn active" data-type="all">Все разделы</button>
+            <button class="filter-btn" data-type="const">📜 Конституция</button>
+            <button class="filter-btn" data-type="uk">⚖️ УК РО</button>
+            <button class="filter-btn" data-type="koap">📝 КоАП РО</button>
+            <button class="filter-btn" data-type="pgo">👮 ПГО</button>
+          </div>
+        </div>
+        <div class="result-count" id="globalResultCount"></div>
+        <div class="list" id="globalResults"></div>
+      </div>
+    </div>
+
+    <!-- ОСТАЛЬНЫЕ ВКЛАДКИ -->
+    <div class="panel" id="panel-rules">
+      <div class="panel-header">
+        <div class="icon-box">📋</div>
+        <div><h2>Правила сервера</h2><p>Что можно, что нельзя и за что бан</p></div>
+      </div>
+      <div class="warn">
+        <span class="w-icon">🎁</span>
+        <span>Незнание правил не освобождает от ответственности. Прочти всё внимательно перед игрой. И дари подарки близким!</span>
+      </div>
+      <a class="smart-link" href="https://forum.russia.online/forums/general-server-rules/" target="_blank" rel="noopener">
+        <div class="smart-link-left">
+          <span class="brain">🧠</span>
+          <div class="smart-link-text">
+            <span class="smart-link-title">Для самых умных</span>
+            <span class="smart-link-sub">Полные правила сервера на официальном форуме</span>
+          </div>
+        </div>
+        <span class="smart-link-arrow">→</span>
+      </a>
+      <div class="list">
+        <div class="item"><div class="item-icon">🚫</div><div class="item-body"><h3>Запрет DM (Deathmatch)</h3><p>Нельзя убивать без отыгровки и причины. Только IC-обоснование.</p></div></div>
+        <div class="item"><div class="item-icon">🎭</div><div class="item-body"><h3>Запрет NonRP</h3><p>Веди себя как реальный человек в реальной жизни. Не ломай атмосферу.</p></div></div>
+        <div class="item"><div class="item-icon">💥</div><div class="item-body"><h3>Запрет PowerGaming</h3><p>Нельзя навязывать действия другим игрокам без их отыгровки.</p></div></div>
+        <div class="item"><div class="item-icon">🧠</div><div class="item-body"><h3>Запрет MetaGaming</h3><p>Нельзя использовать информацию из Discord/стрима в игре.</p></div></div>
+        <div class="item"><div class="item-icon">🤬</div><div class="item-body"><h3>Уважение к игрокам</h3><p>Без оскорблений, токсичности, расизма и политики в голосовом чате.</p></div></div>
+        <div class="item"><div class="item-icon">🔊</div><div class="item-body"><h3>Чистый микрофон</h3><p>Без шумов, эха и музыки в голосовом чате во время игры.</p></div></div>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-memories">
+      <div class="panel-header">
+        <div class="icon-box">💭</div>
+        <div><h2>Воспоминания</h2><p>Лучшие моменты семьи — сохраним навсегда</p></div>
+      </div>
+      <div class="add-form">
+        <input type="text" class="form-input" id="memTitle" placeholder="Заголовок — например: Первый налёт на банк" maxlength="80">
+        <textarea class="form-textarea" id="memText" placeholder="Описание — что произошло, кто был, чем запомнилось..." maxlength="800"></textarea>
+        <div class="photo-upload-row">
+          <label class="photo-btn">📷 Прикрепить фото<input type="file" id="memPhoto" accept="image/*"></label>
+          <div class="photo-preview" id="memPhotoPreview"></div>
+        </div>
+        <button class="form-btn" id="memAddBtn" type="button">🎁 Добавить воспоминание</button>
+      </div>
+      <div class="result-count" id="memCount"></div>
+      <div class="list" id="memList"></div>
+    </div>
+
+    <div class="panel" id="panel-films">
+      <div class="panel-header">
+        <div class="icon-box">🎬</div>
+        <div><h2>Фильмы</h2><p>Голосуй за фильм и отмечай, что уже посмотрели</p></div>
+      </div>
+      <div class="add-form">
+        <div class="add-form-row">
+          <input type="text" class="form-input" id="filmTitle" placeholder="Название фильма" maxlength="100">
+          <input type="text" class="form-input" id="filmYear" placeholder="Год (необязательно)" maxlength="4" style="max-width:160px;">
+        </div>
+        <div class="form-actions">
+          <button class="form-btn" id="filmAddBtn" type="button">+ Добавить фильм</button>
+          <button class="reset-votes-btn" id="resetVotesBtn" type="button">🗳️ Сбросить голоса</button>
+        </div>
+      </div>
+      <div class="vote-leader-info" id="voteLeaderInfo"></div>
+      <div class="films-layout">
+        <div class="films-main">
+          <div class="result-count" id="filmCount"></div>
+          <div class="list" id="filmList"></div>
+        </div>
+        <aside class="films-side">
+          <div class="side-title"><span>🎄</span> Статистика</div>
+          <div class="stats-row">
+            <div class="stat-box watched-box">
+              <div class="stat-num" id="statWatched">0</div>
+              <div class="stat-label">Просмотрено</div>
+            </div>
+            <div class="stat-box pending-box">
+              <div class="stat-num" id="statPending">0</div>
+              <div class="stat-label">Будет</div>
+            </div>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-label"><span>Прогресс</span><span class="progress-percent" id="progressPercent">0%</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          </div>
+          <div class="side-list-title"><span>Список фильмов</span><span class="side-list-count" id="sideListCount">0</span></div>
+          <div class="side-list" id="sideList"></div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- МЕДИА СЕМЬИ -->
+    <div class="panel" id="panel-media">
+      <div class="panel-header">
+        <div class="icon-box">📺</div>
+        <div><h2>Медиа семьи</h2><p>Трансляции, видео и полезные ссылки</p></div>
+      </div>
+
+      <div class="media-grid">
+        <a href="https://www.twitch.tv/klim74ru" target="_blank" rel="noopener" class="media-card">
+          <div class="media-preview">
+            <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?q=80&w=800&auto=format&fit=crop" alt="Twitch стрим">
+            <div class="media-overlay">
+              <span class="media-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; vertical-align:middle;">
+                  <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
+                </svg>
+                Twitch
+              </span>
+            </div>
+          </div>
+          <div class="media-info">
+            <h3>Канал klim74ru</h3>
+            <p>Официальный стрим семьи</p>
+            <span class="media-link-text">Ссылка ➔</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="signature">
+      <div class="sign-line"></div>
+      <div class="sign-text">🎄 Сделано для <span class="family">Мамаевых</span> с душой <span class="by">by Jays</span> 🎅</div>
+      <div class="sign-line"></div>
+    </div>
+    <div class="ny-greeting">✨ С Новым годом, семья! Пусть он будет законным и счастливым ✨</div>
+    <div>© 2025 · ЗаконОчка · Все права защищены</div>
+    <div class="small">Не является официальным сайтом Rockstar Games</div>
+  </footer>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ==========================================
+  // 0. НОВОГОДНИЙ СНЕГ
+  // ==========================================
+  (function initSnow() {
+    const container = document.getElementById('snowContainer');
+    if (!container) return;
+    const flakes = ['❄', '❅', '❆', '✻', '✼'];
+    const count = window.innerWidth < 640 ? 30 : 60;
+    for (let i = 0; i < count; i++) {
+      const s = document.createElement('div');
+      s.className = 'snow';
+      s.textContent = flakes[Math.floor(Math.random() * flakes.length)];
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.fontSize = (8 + Math.random() * 16) + 'px';
+      s.style.animationDuration = (6 + Math.random() * 10) + 's';
+      s.style.animationDelay = (-Math.random() * 15) + 's';
+      s.style.opacity = (0.4 + Math.random() * 0.5).toFixed(2);
+      container.appendChild(s);
+    }
+  })();
+
+  // ==========================================
+  // 1. БАЗОВЫЕ ПЕРЕМЕННЫЕ И СОСТОЯНИЯ
+  // ==========================================
+  const globalSearchInput = document.getElementById('globalSearchInput');
+  const globalSearchClear = document.getElementById('globalSearchClear');
+  const globalResultsEl = document.getElementById('globalResults');
+  const globalResultCount = document.getElementById('globalResultCount');
+  const globalTypeFilters = document.querySelectorAll('#globalTypeFilters .filter-btn');
+  const browseMode = document.getElementById('browseMode');
+  const searchMode = document.getElementById('searchMode');
+
+  let globalType = 'all';
+  const expandedGlobal = new Set();
+  const expanded = { const: new Set(), uk: new Set(), koap: new Set(), pgo: new Set() };
+
+  let activeConstFilter = 'all';
+  let activeUkFilter = 'all';
+  let activeKoapFilter = 'all';
+  let activePgoFilter = 'all';
+
+  // ==========================================
+  // 2. УТИЛИТЫ
+  // ==========================================
+  function escapeHtml(s) {
+    if (!s) return '';
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+  function plural(n, one, few, many) {
+    const m10 = n % 10, m100 = n % 100;
+    if (m10 === 1 && m100 !== 11) return one;
+    if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
+    return many;
+  }
+  function highlight(text, q) {
+    if (!q || !text) return escapeHtml(text || '');
+    const safe = escapeHtml(text);
+    const words = q.split(/\s+/).filter(Boolean).map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    if (words.length === 0) return safe;
+    const re = new RegExp('(' + words.join('|') + ')', 'gi');
+    return safe.replace(re, '<mark>$1</mark>');
+  }
+  function matchItem(item, query, extra = '') {
+    if (!query) return true;
+    const q = query.toLowerCase();
+    const text = ((item.num || '') + ' ' + (item.title || '') + ' ' + (item.text || '') + ' ' + (item.chapter || item.section || '') + ' ' + extra).toLowerCase();
+    const words = q.split(/\s+/).filter(Boolean);
+    return words.every(w => text.includes(w));
+  }
+  function compressImage(file, maxWidth = 900, quality = 0.72) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          let w = img.width, h = img.height;
+          if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          try { resolve(canvas.toDataURL('image/jpeg', quality)); }
+          catch(err) { reject(err); }
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+  function openLightbox(src) {
+    const lb = document.createElement('div');
+    lb.className = 'lightbox';
+    lb.innerHTML = `<img src="${src}" alt=""><button class="lightbox-close" type="button">✕</button>`;
+    lb.addEventListener('click', e => {
+      if (e.target === lb || e.target.classList.contains('lightbox-close')) lb.remove();
+    });
+    document.addEventListener('keydown', function escHandler(e) {
+      if (e.key === 'Escape') { lb.remove(); document.removeEventListener('keydown', escHandler); }
+    });
+    document.body.appendChild(lb);
+  }
+
+  // ==========================================
+  // 3. ДАННЫЕ
+  // ==========================================
+  const constData = [
+    { chapter: 'I', num: '1', title: 'РО', text: '1. РО — демократическое и правовое государство...' },
+    { chapter: 'I', num: '2', title: 'Человек, его права и свободы', text: '1. Человек, его права и свободы являются высшей ценностью...' },
+    { chapter: 'II', num: '12', title: 'Равенство перед законом', text: '1. Все равны перед законом и судом...' },
+    { chapter: 'III', num: '34', title: 'Статус Премьер-министра', text: '1. Премьер-министр — глава государства...' },
+  ];
+  const chapterNames = { 'I': 'Основы государственного и правового устройства', 'II': 'Права, свободы и обязанности', 'III': 'Премьер-министр РО', 'IV': 'Государственная Дума РО', 'V': 'Правительство РО', 'VI': 'Судебная власть', 'VII': 'Прокуратура и СК', 'VIII': 'Правоохранительные органы', 'IX': 'Особые правовые режимы', 'X': 'Поправки' };
+
+  const ukData = [
+    { chapter: '1', num: '1', title: 'Уголовное законодательство РО', text: 'ч. 1 Уголовное законодательство РО состоит из настоящего Кодекса...' },
+    { chapter: '2', num: '2', title: 'Понятие преступления', text: 'ч. 1 Преступлением признается виновно совершенное общественно опасное деяние...' },
+    { chapter: '5', num: '5.11', title: 'Упрощенное разрешение', text: 'ч. 1 Уполномоченный сотрудник вправе непосредственно в ходе задержания разрешить материал...' },
+    { chapter: '6', num: '6.2', title: 'Убийство', text: 'Приоритет розыска - 4. Наказание: До 40 месяцев лишения свободы.' },
+    { chapter: '10', num: '10.1', title: 'Кража', text: 'Приоритет розыска - 1. Наказание: До 10 месяцев лишения свободы.' },
+    { chapter: '12', num: '12.8', title: 'Оборот оружия', text: 'Приоритет розыска - 4. Наказание: До 40 месяцев лишения свободы.' },
+  ];
+
+  const koapData = [
+    { chapter: '1', num: '1.1', title: 'Законодательство об адм. правонарушениях', text: '1. Законодательство РО об административных правонарушениях...' },
+    { chapter: '7', num: '7.1', title: 'Мелкое хулиганство', text: 'Нарушение общественного порядка... Наказание: штраф 5-15 тыс.' },
+    { chapter: '14', num: '14.2', title: 'Управление ТС в опьянении', text: 'Наказание: штраф 50-100 тыс. с лишением прав.' },
+  ];
+
+  const pgoRules = [
+    { section: '1', sectionName: 'Общее положение', num: '1.1', title: 'Сотрудник гос. структур', text: 'Сотрудником считается игрок, использующий что-либо с фракционного склада...', punishment: '' },
+    { section: '1', sectionName: 'Общее положение', num: '1.1.1', title: 'Запрет криминальных действий', text: 'Сотрудникам гос. структур запрещены любые криминальные действия...', punishment: 'WARN / Ban / HardBan 3-15 дней' },
+  ];
+  const pgoSectionNames = { '1': 'Общее положение', '2': 'Взаимодействие', '3': 'Правительство', '4': 'ФСБ', '5': 'МВД', '6': 'Армия', '7': 'Силовые', '8': 'Суд', '9': 'СК', '10': 'ГИБДД', '11': 'Вести', '12': 'ФСО', '13': 'Допрос', '14': 'Обыск' };
+
+  // ==========================================
+  // 4. ГЛОБАЛЬНЫЙ ПОИСК
+  // ==========================================
+  function renderGlobalSearch() {
+    if (!globalSearchInput) return;
+    const q = globalSearchInput.value.trim();
+    globalSearchClear.classList.toggle('show', q.length > 0);
+
+    if (!q) {
+      browseMode.style.display = 'block';
+      searchMode.style.display = 'none';
+      return;
+    }
+
+    browseMode.style.display = 'none';
+    searchMode.style.display = 'block';
+
+    const constMatches = constData.filter(a => matchItem(a, q, chapterNames[a.chapter] || ''));
+    const ukMatches = ukData.filter(a => matchItem(a, q));
+    const koapMatches = koapData.filter(a => matchItem(a, q));
+    const pgoMatches = pgoRules.filter(r => matchItem(r, q, r.punishment || ''));
+
+    let combined = [];
+    if (globalType === 'all' || globalType === 'const') combined.push(...constMatches.map(a => ({ type: 'const', ...a })));
+    if (globalType === 'all' || globalType === 'uk') combined.push(...ukMatches.map(a => ({ type: 'uk', ...a })));
+    if (globalType === 'all' || globalType === 'koap') combined.push(...koapMatches.map(a => ({ type: 'koap', ...a })));
+    if (globalType === 'all' || globalType === 'pgo') combined.push(...pgoMatches.map(r => ({ type: 'pgo', ...r })));
+
+    if (combined.length === 0) {
+      globalResultCount.innerHTML = '';
+      globalResultsEl.innerHTML = `<div class="empty"><div class="emoji">🎅</div><h3>Ничего не найдено</h3><p>Попробуй другой запрос. А пока — с Новым годом!</p></div>`;
+      return;
+    }
+
+    if (combined.length === 1) {
+      const item = combined[0];
+      const key = `${item.type}:${item.chapter || item.section}:${item.num}`;
+      expandedGlobal.add(key);
+    }
+
+    globalResultCount.innerHTML = `Найдено: <b>${combined.length}</b> записей · 📜 Конст: <b>${constMatches.length}</b> · ⚖️ УК: <b>${ukMatches.length}</b> · 📝 КоАП: <b>${koapMatches.length}</b> · 👮 ПГО: <b>${pgoMatches.length}</b>`;
+
+    globalResultsEl.innerHTML = combined.map(item => {
+      const isConst = item.type === 'const';
+      const isUk = item.type === 'uk';
+      const isKoap = item.type === 'koap';
+      const key = `${item.type}:${item.chapter || item.section}:${item.num}`;
+      const isExp = expandedGlobal.has(key);
+
+      let typeBadge = '', typeClass = '', numLabel = 'Ст.';
+      if (isConst) { typeBadge = '📜 Конституция'; typeClass = 'type-const'; }
+      else if (isUk) { typeBadge = '⚖️ УК РО'; typeClass = 'type-uk'; }
+      else if (isKoap) { typeBadge = '📝 КоАП РО'; typeClass = 'type-koap'; }
+      else { typeBadge = '👮 ПГО'; typeClass = 'type-pgo'; numLabel = 'П.'; }
+
+      return `
+        <div class="item ${isExp ? 'expanded' : ''}" data-global-key="${key}">
+          <div class="item-icon">${isConst ? '📜' : isUk ? '⚖️' : isKoap ? '📝' : '👮'}</div>
+          <div class="item-body">
+            <div class="meta">
+              <span class="code ${typeClass}">${typeBadge}</span>
+              <span class="art-num">${numLabel} ${highlight(item.num, q)}</span>
+            </div>
+            <h3>${highlight(item.title, q)}</h3>
+            <div class="item-text">
+              <p>${highlight(item.text, q)}</p>
+              ${item.punishment ? `<div class="punish-badge">${highlight(item.punishment, q)}</div>` : ''}
+              <button class="toggle-text-btn" type="button">Свернуть</button>
+            </div>
+          </div>
+          <span class="chev">▼</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (globalSearchInput) globalSearchInput.addEventListener('input', renderGlobalSearch);
+  if (globalSearchClear) {
+    globalSearchClear.addEventListener('click', () => {
+      globalSearchInput.value = '';
+      globalSearchInput.focus();
+      renderGlobalSearch();
+    });
+  }
+
+  globalTypeFilters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      globalType = btn.dataset.type;
+      globalTypeFilters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGlobalSearch();
+    });
+  });
+
+  if (globalResultsEl) {
+    globalResultsEl.addEventListener('click', e => {
+      const item = e.target.closest('.item[data-global-key]');
+      if (!item) return;
+
+      if (e.target.classList.contains('toggle-text-btn')) {
+        const key = item.dataset.globalKey;
+        expandedGlobal.delete(key);
+        item.classList.remove('expanded');
+        return;
+      }
+
+      const key = item.dataset.globalKey;
+      if (expandedGlobal.has(key)) {
+        expandedGlobal.delete(key);
+        item.classList.remove('expanded');
+      } else {
+        expandedGlobal.add(key);
+        item.classList.add('expanded');
+      }
+    });
+  }
+
+  // ==========================================
+  // 5. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+  // ==========================================
+  document.body.addEventListener('click', (e) => {
+    const tab = e.target.closest('.tab');
+    if (tab) {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const panel = document.getElementById('panel-' + target);
+      if (panel) panel.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const subtab = e.target.closest('.subtab');
+    if (subtab) {
+      const target = subtab.dataset.subtab;
+
+      if (subtab.classList.contains('active')) {
+        if (target === 'legislation') { activeConstFilter = 'all'; renderConstSearch(); }
+        if (target === 'uk') { activeUkFilter = 'all'; renderUkSearch(); }
+        if (target === 'koap') { activeKoapFilter = 'all'; renderKoapSearch(); }
+        if (target === 'pgo') { activePgoFilter = 'all'; renderPgoSearch(); }
+
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          if (b.closest(`#subpanel-${target}`)) b.classList.remove('active');
+        });
+        document.querySelector(`#subpanel-${target} .filter-btn[data-filter="all"], #subpanel-${target} .filter-btn[data-uk-filter="all"], #subpanel-${target} .filter-btn[data-koap-filter="all"], #subpanel-${target} .filter-btn[data-pgo-filter="all"]`)?.classList.add('active');
+        return;
+      }
+
+      document.querySelectorAll('.subtab').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.subpanel').forEach(p => p.classList.remove('active'));
+      subtab.classList.add('active');
+      document.getElementById('subpanel-' + target)?.classList.add('active');
+
+      if (globalSearchInput.value) {
+        globalSearchInput.value = '';
+        renderGlobalSearch();
+      }
+    }
+  });
+
+  // ==========================================
+  // 6. РЕНДЕР ВКЛАДОК
+  // ==========================================
+
+  // 1. КОНСТИТУЦИЯ
+  const resultsEl = document.getElementById('results');
+  const countEl = document.getElementById('resultCount');
+  const filterBtns = document.querySelectorAll('#filters .filter-btn');
+
+  function renderConstChapterGrid() {
+    const counts = {};
+    constData.forEach(a => { counts[a.chapter] = (counts[a.chapter] || 0) + 1; });
+    const romans = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+    return `
+      <div class="chapter-grid">
+        ${romans.map(r => `
+          <button class="chapter-card" data-chapter="${r}" type="button">
+            <div class="chapter-num">Глава ${r}</div>
+            <div class="chapter-title">${chapterNames[r] || 'Раздел'}</div>
+            <div class="chapter-count">${counts[r] || 0} ${plural(counts[r] || 0, 'статья', 'статьи', 'статей')}</div>
+          </button>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderConstSearch() {
+    if (!resultsEl) return;
+    if (activeConstFilter === 'all') {
+      countEl.innerHTML = '';
+      resultsEl.innerHTML = renderConstChapterGrid();
+      resultsEl.querySelectorAll('.chapter-card').forEach(card => {
+        card.addEventListener('click', () => {
+          activeConstFilter = card.dataset.chapter;
+          filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === activeConstFilter));
+          renderConstSearch();
+        });
+      });
+      return;
+    }
+
+    const filtered = constData.filter(a => a.chapter === activeConstFilter);
+    countEl.innerHTML = `Глава ${activeConstFilter} · <b>${filtered.length}</b> ${plural(filtered.length, 'статья', 'статьи', 'статей')}`;
+
+    resultsEl.innerHTML = filtered.map(a => {
+      const key = a.chapter + '|' + a.num;
+      const isExp = expanded.const.has(key);
+      return `
+        <div class="item ${isExp ? 'expanded' : ''}" data-key="${key}">
+          <div class="item-icon">📜</div>
+          <div class="item-body">
+            <div class="meta">
+              <span class="code">Глава ${escapeHtml(a.chapter)}</span>
+              <span class="art-num">Ст. ${escapeHtml(a.num)}</span>
+            </div>
+            <h3>${escapeHtml(a.title)}</h3>
+            <div class="item-text">
+              <p>${escapeHtml(a.text)}</p>
+              <button class="toggle-text-btn" type="button">Свернуть</button>
+            </div>
+          </div>
+          <span class="chev">▼</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (resultsEl) {
+    resultsEl.addEventListener('click', e => {
+      if (e.target.classList.contains('toggle-text-btn')) {
+        const item = e.target.closest('.item[data-key]');
+        if (item) { expanded.const.delete(item.dataset.key); item.classList.remove('expanded'); }
+        return;
+      }
+      const item = e.target.closest('.item[data-key]');
+      if (!item) return;
+      const key = item.dataset.key;
+      if (expanded.const.has(key)) { expanded.const.delete(key); item.classList.remove('expanded'); }
+      else { expanded.const.add(key); item.classList.add('expanded'); }
+    });
+  }
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('active') && btn.dataset.filter !== 'all') {
+        activeConstFilter = 'all';
+      } else {
+        activeConstFilter = btn.dataset.filter;
+      }
+      filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === activeConstFilter));
+      renderConstSearch();
+    });
+  });
+  renderConstSearch();
+
+  // 2. УК РО
+  const ukResultsEl = document.getElementById('ukResults');
+  const ukCountEl = document.getElementById('ukResultCount');
+  const ukFilterBtns = document.querySelectorAll('#ukFilters .filter-btn');
+
+  function renderUkChapterGrid() {
+    const counts = {};
+    ukData.forEach(a => { counts[a.chapter] = (counts[a.chapter] || 0) + 1; });
+    const chapters = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17'];
+    return `
+      <div class="chapter-grid">
+        ${chapters.map(c => `
+          <button class="chapter-card" data-uk-chapter="${c}" type="button">
+            <div class="chapter-num">Глава ${c}</div>
+            <div class="chapter-title">Уголовный кодекс</div>
+            <div class="chapter-count">${counts[c] || 0} ${plural(counts[c] || 0, 'статья', 'статьи', 'статей')}</div>
+          </button>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderUkSearch() {
+    if (!ukResultsEl) return;
+    if (activeUkFilter === 'all') {
+      ukCountEl.innerHTML = '';
+      ukResultsEl.innerHTML = renderUkChapterGrid();
+      ukResultsEl.querySelectorAll('.chapter-card').forEach(card => {
+        card.addEventListener('click', () => {
+          activeUkFilter = card.dataset.ukChapter;
+          ukFilterBtns.forEach(b => b.classList.toggle('active', b.dataset.ukFilter === activeUkFilter));
+          renderUkSearch();
+        });
+      });
+      return;
+    }
+
+    const filtered = ukData.filter(a => a.chapter === activeUkFilter);
+    ukCountEl.innerHTML = `Глава ${activeUkFilter} · <b>${filtered.length}</b> ${plural(filtered.length, 'статья', 'статьи', 'статей')}`;
+
+    ukResultsEl.innerHTML = filtered.map(a => {
+      const key = a.chapter + '|' + a.num;
+      const isExp = expanded.uk.has(key);
+      return `
+        <div class="item ${isExp ? 'expanded' : ''}" data-uk-key="${key}">
+          <div class="item-icon">⚖️</div>
+          <div class="item-body">
+            <div class="meta">
+              <span class="code type-uk">УК РО</span>
+              <span class="code">Глава ${escapeHtml(a.chapter)}</span>
+              <span class="art-num">Ст. ${escapeHtml(a.num)}</span>
+            </div>
+            <h3>${escapeHtml(a.title)}</h3>
+            <div class="item-text">
+              <p>${escapeHtml(a.text)}</p>
+              <button class="toggle-text-btn" type="button">Свернуть</button>
+            </div>
+          </div>
+          <span class="chev">▼</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (ukResultsEl) {
+    ukResultsEl.addEventListener('click', e => {
+      if (e.target.classList.contains('toggle-text-btn')) {
+        const item = e.target.closest('.item[data-uk-key]');
+        if (item) { expanded.uk.delete(item.dataset.ukKey); item.classList.remove('expanded'); }
+        return;
+      }
+      const item = e.target.closest('.item[data-uk-key]');
+      if (!item) return;
+      const key = item.dataset.ukKey;
+      if (expanded.uk.has(key)) { expanded.uk.delete(key); item.classList.remove('expanded'); }
+      else { expanded.uk.add(key); item.classList.add('expanded'); }
+    });
+  }
+  ukFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('active') && btn.dataset.ukFilter !== 'all') {
+        activeUkFilter = 'all';
+      } else {
+        activeUkFilter = btn.dataset.ukFilter;
+      }
+      ukFilterBtns.forEach(b => b.classList.toggle('active', b.dataset.ukFilter === activeUkFilter));
+      renderUkSearch();
+    });
+  });
+  renderUkSearch();
+
+  // 3. КОАП РО
+  const koapResultsEl = document.getElementById('koapResults');
+  const koapCountEl = document.getElementById('koapResultCount');
+  const koapFilterBtns = document.querySelectorAll('#koapFilters .filter-btn');
+
+  function renderKoapChapterGrid() {
+    const counts = {};
+    koapData.forEach(a => { counts[a.chapter] = (counts[a.chapter] || 0) + 1; });
+    const chapters = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14'];
+    return `
+      <div class="chapter-grid">
+        ${chapters.map(c => `
+          <button class="chapter-card" data-koap-chapter="${c}" type="button">
+            <div class="chapter-num">Глава ${c}</div>
+            <div class="chapter-title">Административный кодекс</div>
+            <div class="chapter-count">${counts[c] || 0} ${plural(counts[c] || 0, 'статья', 'статьи', 'статей')}</div>
+          </button>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderKoapSearch() {
+    if (!koapResultsEl) return;
+    if (activeKoapFilter === 'all') {
+      koapCountEl.innerHTML = '';
+      koapResultsEl.innerHTML = renderKoapChapterGrid();
+      koapResultsEl.querySelectorAll('.chapter-card').forEach(card => {
+        card.addEventListener('click', () => {
+          activeKoapFilter = card.dataset.koapChapter;
+          koapFilterBtns.forEach(b => b.classList.toggle('active', b.dataset.koapFilter === activeKoapFilter));
+          renderKoapSearch();
+        });
+      });
+      return;
+    }
+
+    const filtered = koapData.filter(a => a.chapter === activeKoapFilter);
+    koapCountEl.innerHTML = `Глава ${activeKoapFilter} · <b>${filtered.length}</b> ${plural(filtered.length, 'статья', 'статьи', 'статей')}`;
+
+    koapResultsEl.innerHTML = filtered.map(a => {
+      const key = a.chapter + '|' + a.num;
+      const isExp = expanded.koap.has(key);
+      return `
+        <div class="item ${isExp ? 'expanded' : ''}" data-koap-key="${key}">
+          <div class="item-icon">📝</div>
+          <div class="item-body">
+            <div class="meta">
+              <span class="code type-koap">КоАП РО</span>
+              <span class="code">Глава ${escapeHtml(a.chapter)}</span>
+              <span class="art-num">Ст. ${escapeHtml(a.num)}</span>
+            </div>
+            <h3>${escapeHtml(a.title)}</h3>
+            <div class="item-text">
+              <p>${escapeHtml(a.text)}</p>
+              <button class="toggle-text-btn" type="button">Свернуть</button>
+            </div>
+          </div>
+          <span class="chev">▼</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (koapResultsEl) {
+    koapResultsEl.addEventListener('click', e => {
+      if (e.target.classList.contains('toggle-text-btn')) {
+        const item = e.target.closest('.item[data-koap-key]');
+        if (item) { expanded.koap.delete(item.dataset.koapKey); item.classList.remove('expanded'); }
+        return;
+      }
+      const item = e.target.closest('.item[data-koap-key]');
+      if (!item) return;
+      const key = item.dataset.koapKey;
+      if (expanded.koap.has(key)) { expanded.koap.delete(key); item.classList.remove('expanded'); }
+      else { expanded.koap.add(key); item.classList.add('expanded'); }
+    });
+  }
+  koapFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('active') && btn.dataset.koapFilter !== 'all') {
+        activeKoapFilter = 'all';
+      } else {
+        activeKoapFilter = btn.dataset.koapFilter;
+      }
+      koapFilterBtns.forEach(b => b.classList.toggle('active', b.dataset.koapFilter === activeKoapFilter));
+      renderKoapSearch();
+    });
+  });
+  renderKoapSearch();
+
+  // 4. ПГО
+  const pgoResultsEl = document.getElementById('pgoResults');
+  const pgoCountEl = document.getElementById('pgoResultCount');
+  const pgoFilterBtns = document.querySelectorAll('#pgoFilters .filter-btn');
+
+  function renderPgoSectionGrid() {
+    const counts = {};
+    pgoRules.forEach(r => { counts[r.section] = (counts[r.section] || 0) + 1; });
+    const sections = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14'];
+    return `
+      <div class="chapter-grid">
+        ${sections.map(s => `
+          <button class="chapter-card" data-pgo-chapter="${s}" type="button">
+            <div class="chapter-num">Раздел ${s}</div>
+            <div class="chapter-title">${pgoSectionNames[s] || 'ПГО'}</div>
+            <div class="chapter-count">${counts[s] || 0} ${plural(counts[s] || 0, 'пункт', 'пункта', 'пунктов')}</div>
+          </button>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderPgoSearch() {
+    if (!pgoResultsEl) return;
+    if (activePgoFilter === 'all') {
+      pgoCountEl.innerHTML = '';
+      pgoResultsEl.innerHTML = renderPgoSectionGrid();
+      pgoResultsEl.querySelectorAll('.chapter-card').forEach(card => {
+        card.addEventListener('click', () => {
+          activePgoFilter = card.dataset.pgoChapter;
+          pgoFilterBtns.forEach(b => b.classList.toggle('active', b.dataset.pgoFilter === activePgoFilter));
+          renderPgoSearch();
+        });
+      });
+      return;
+    }
+
+    const filtered = pgoRules.filter(r => r.section === activePgoFilter);
+    pgoCountEl.innerHTML = `Раздел ${activePgoFilter} · <b>${filtered.length}</b> ${plural(filtered.length, 'пункт', 'пункта', 'пунктов')}`;
+
+    pgoResultsEl.innerHTML = filtered.map(r => {
+      const key = r.section + '|' + r.num;
+      const isExp = expanded.pgo.has(key);
+      return `
+        <div class="item ${isExp ? 'expanded' : ''}" data-pgo-key="${key}">
+          <div class="item-icon">👮</div>
+          <div class="item-body">
+            <div class="meta">
+              <span class="code">Раздел ${escapeHtml(r.section)}</span>
+              <span class="art-num">П. ${escapeHtml(r.num)}</span>
+            </div>
+            <h3>${escapeHtml(r.title)}</h3>
+            <div class="item-text">
+              <p>${escapeHtml(r.text)}</p>
+              ${r.punishment ? `<div class="punish-badge">${escapeHtml(r.punishment)}</div>` : ''}
+              <button class="toggle-text-btn" type="button">Свернуть</button>
+            </div>
+          </div>
+          <span class="chev">▼</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (pgoResultsEl) {
+    pgoResultsEl.addEventListener('click', e => {
+      if (e.target.classList.contains('toggle-text-btn')) {
+        const item = e.target.closest('.item[data-pgo-key]');
+        if (item) { expanded.pgo.delete(item.dataset.pgoKey); item.classList.remove('expanded'); }
+        return;
+      }
+      const item = e.target.closest('.item[data-pgo-key]');
+      if (!item) return;
+      const key = item.dataset.pgoKey;
+      if (expanded.pgo.has(key)) { expanded.pgo.delete(key); item.classList.remove('expanded'); }
+      else { expanded.pgo.add(key); item.classList.add('expanded'); }
+    });
+  }
+  pgoFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('active') && btn.dataset.pgoFilter !== 'all') {
+        activePgoFilter = 'all';
+      } else {
+        activePgoFilter = btn.dataset.pgoFilter;
+      }
+      pgoFilterBtns.forEach(b => b.classList.toggle('active', b.dataset.pgoFilter === activePgoFilter));
+      renderPgoSearch();
+    });
+  });
+  renderPgoSearch();
+});
+</script>
+
+</body>
+</html>
